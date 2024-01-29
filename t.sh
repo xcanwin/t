@@ -1,21 +1,25 @@
 #!/bin/bash
-#curl https://github.com/xcanwin/t/raw/main/t.sh -fsSL -o /tmp/t.sh; sh /tmp/t.sh
+#curl https://github.com/xcanwin/t/raw/main/t.sh -fsSL -o /tmp/t.sh; bash /tmp/t.sh
 domain=localhost
 read -s -p "Enter t password:" psd; [ -z "$psd" ] && psd=TMPtmp7;echo;
 ip1=`curl ifconfig.io  -s | tr -d '\n'`
 ip2=`curl ipinfo.io/ip -s | tr -d '\n'`
 [ "$ip1" == "$ip2" ] && ip=$ip1
 [ "$domain" != "localhost" ] && target=$domain || target=$ip
-yum -y --skip-broken install epel-release wget unzip nginx tar socat nano
-mkdir /ssl/
-cd /ssl/
+if command -v yum &> /dev/null; then
+    yum -y --skip-broken install epel-release wget unzip tar nano
+elif command -v apt &> /dev/null; then
+    apt update; apt -y install wget unzip tar nano cron
+fi
+mkdir -p /opt/ssl/
+cd /opt/ssl/
 openssl genrsa -out "${domain}.key" 2048
 openssl req -new -x509 -days 3650 -key "${domain}.key" -out "${domain}-fullchain.crt" -subj "/C=cn/OU=myorg/O=mycomp/CN=${domain}"
-mkdir /opt/tool/
+mkdir -p /opt/tool/
 cd /opt/tool/
 xrayver=1.8.7
 wget "https://github.com/XTLS/Xray-core/releases/download/v${xrayver}/Xray-linux-64.zip" -O "Xray-linux-64-${xrayver}.zip"
-unzip "Xray-linux-64-${xrayver}.zip" -d xray -o
+unzip -o -d xray "Xray-linux-64-${xrayver}.zip"
 cd xray
 cat > xs.json << EOF
 {
@@ -49,8 +53,8 @@ cat > xs.json << EOF
           ],
           "certificates": [
             {
-              "certificateFile": "/ssl/${domain}-fullchain.crt",
-              "keyFile": "/ssl/${domain}.key"
+              "certificateFile": "/opt/ssl/${domain}-fullchain.crt",
+              "keyFile": "/opt/ssl/${domain}.key"
             }
           ]
         }
@@ -75,5 +79,5 @@ cat > xs.json << EOF
 }
 EOF
 nohup ./xray run -c xs.json &
-crontab -l | { cat; echo "@reboot nohup /opt/tool/xray/xray run -c /opt/tool/xray/xs.json &"; } | crontab --
+crontab -l | { cat; echo "@reboot nohup /opt/tool/xray/xray run -c /opt/tool/xray/xs.json &"; } | crontab -
 echo -e "\n\n\n[+] Success:\ntrojan://${psd}@${target}:443?security=tls&allowInsecure=1#trojan_temp"
