@@ -14,7 +14,7 @@ mkdir /opt/tool/
 cd /opt/tool/
 xrayver=1.8.7
 wget "https://github.com/XTLS/Xray-core/releases/download/v${xrayver}/Xray-linux-64.zip" -O "Xray-linux-64-${xrayver}.zip"
-unzip "Xray-linux-64-${xrayver}.zip" -d xray
+unzip "Xray-linux-64-${xrayver}.zip" -d xray -o
 cd xray
 cat > xs.json << EOF
 {
@@ -75,4 +75,4 @@ cat > xs.json << EOF
 EOF
 nohup ./xray run -c xs.json &
 crontab -l | { cat; echo "@reboot nohup /opt/tool/xray/xray run -c /opt/tool/xray/xs.json &"; } | crontab --
-echo -e "[+] Success:\ntrojan://${psd}@${target}:443?security=tls&allowInsecure=1#trojan_temp"
+echo -e "\n\n\n[+] Success:\ntrojan://${psd}@${target}:443?security=tls&allowInsecure=1#trojan_temp"
