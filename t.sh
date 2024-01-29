@@ -1,6 +1,7 @@
 #!/bin/bash
+#curl https://github.com/xcanwin/t/raw/main/t.sh -fsSL -o /tmp/t.sh; sh /tmp/t.sh
 domain=localhost
-read -s -p "Enter password:" psd; [ -z "$psd" ] && psd=t3mp;echo;
+read -s -p "Enter t password:" psd; [ -z "$psd" ] && psd=t3mp;echo;
 ip1=`curl ifconfig.io  -s | tr -d '\n'`
 ip2=`curl ipinfo.io/ip -s | tr -d '\n'`
 [ "$ip1" == "$ip2" ] && ip=$ip1
