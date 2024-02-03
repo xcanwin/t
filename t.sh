@@ -1,16 +1,18 @@
 #!/bin/bash
-#curl https://github.com/xcanwin/t/raw/main/t.sh -fsSL -o /tmp/t.sh; bash /tmp/t.sh
+#curl https://github.com/xcanwin/t/raw/main/t.sh -fsSL -o /tmp/t.sh; sudo bash /tmp/t.sh
 domain=localhost
 read -s -p "Enter t password:" psd; [ -z "$psd" ] && psd=TMPtmp7;echo;
-ip1=`curl ifconfig.io  -s | tr -d '\n'`
-ip2=`curl ipinfo.io/ip -s | tr -d '\n'`
-[ "$ip1" == "$ip2" ] && ip=$ip1
+ip1=`curl ipinfo.io/ip -s | tr -d '\n'`
+ip2=`curl ifconfig.io  -s | tr -d '\n'`
+[ "$ip1" == "$ip2" ] && ip=$ip1 || ip=0.0.0.0
 [ "$domain" != "localhost" ] && target=$domain || target=$ip
 if command -v yum &> /dev/null; then
-    yum -y --skip-broken install epel-release wget unzip tar nano
+    yum -y --skip-broken install epel-release wget unzip nginx tar nano
 elif command -v apt &> /dev/null; then
-    apt update; apt -y install wget unzip tar nano cron
+    apt update; apt -y install wget unzip nginx tar nano cron
 fi
+service nginx start
+systemctl enable nginx.service
 mkdir -p /opt/ssl/
 cd /opt/ssl/
 openssl genrsa -out "${domain}.key" 2048
