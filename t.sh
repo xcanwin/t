@@ -1,7 +1,7 @@
 #!/bin/bash
-#curl https://github.com/xcanwin/t/raw/main/t.sh -fsSL -o /tmp/t.sh; sudo bash /tmp/t.sh
+#bash -c "`curl -fsSL https://github.com/xcanwin/t/raw/main/t.sh`"
 domain=localhost
-read -s -p "Enter t password:" psd; [ -z "$psd" ] && psd=TMPtmp7;echo;
+read -s -p "Enter t password:" psd; [ -z "$psd" ] && psd=TMPtmp-7;echo;
 ip1=`curl ipinfo.io/ip -s | tr -d '\n'`
 ip2=`curl ifconfig.io  -s | tr -d '\n'`
 [ "$ip1" == "$ip2" ] && ip=$ip1 || ip=0.0.0.0
