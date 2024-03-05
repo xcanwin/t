@@ -13,10 +13,12 @@ elif command -v apt &> /dev/null; then
 fi
 service nginx start
 systemctl enable nginx.service
-mkdir -p /opt/ssl/
-cd /opt/ssl/
+pcert=/opt/tool/cert/
+mkdir -p ${pcert}/${domain}
+
+cd ${pcert}/${domain}
 openssl genrsa -out "${domain}.key" 2048
-openssl req -new -x509 -days 3650 -key "${domain}.key" -out "${domain}-fullchain.crt" -subj "/C=cn/OU=myorg/O=mycomp/CN=${domain}"
+openssl req -new -x509 -days 3650 -key "${domain}.key" -out "fullchain.cer" -subj "/C=cn/OU=myorg/O=mycomp/CN=${domain}"
 mkdir -p /opt/tool/
 cd /opt/tool/
 xrayver=1.8.7
@@ -55,8 +57,8 @@ cat > xs.json << EOF
           ],
           "certificates": [
             {
-              "certificateFile": "/opt/ssl/${domain}-fullchain.crt",
-              "keyFile": "/opt/ssl/${domain}.key"
+              "certificateFile": "${pcert}/${domain}/fullchain.cer",
+              "keyFile": "${pcert}/${domain}/${domain}.key"
             }
           ]
         }
