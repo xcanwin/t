@@ -15,11 +15,9 @@ service nginx start
 systemctl enable nginx.service
 pcert=/opt/tool/cert/
 mkdir -p ${pcert}/${domain}
-
 cd ${pcert}/${domain}
 openssl genrsa -out "${domain}.key" 2048
 openssl req -new -x509 -days 3650 -key "${domain}.key" -out "fullchain.cer" -subj "/C=cn/OU=myorg/O=mycomp/CN=${domain}"
-mkdir -p /opt/tool/
 cd /opt/tool/
 xrayver=1.8.7
 wget "https://github.com/XTLS/Xray-core/releases/download/v${xrayver}/Xray-linux-64.zip" -O "Xray-linux-64-${xrayver}.zip"
