@@ -1,7 +1,8 @@
 #!/bin/bash
 #bash -c "`curl -fsSL https://github.com/xcanwin/t/raw/main/t.sh`"
 domain_xray="localhost"
-read -s -p "Enter t password:" psd; [ -z "$psd" ] && psd=TMPtmp-7;echo;
+psd="TMPtmp-7"
+read -s -p "Enter t password ( Default is ${psd} ):" psd2; [ -n "${psd2}" ] && psd=$psd2;echo;
 
 if command -v yum &> /dev/null; then
     yum -y --skip-broken install epel-release wget unzip nginx tar nano net-tools nginx-all-modules.noarch
