@@ -2,12 +2,12 @@
 #bash -c "`curl -fsSL https://github.com/xcanwin/t/raw/main/t.sh`"
 domain_xray="localhost"
 psd="TMPtmp-7"
-read -s -p "Enter t password ( Default is ${psd} ):" psd2; [ -n "${psd2}" ] && psd=$psd2;echo;
 
+read -s -p "Enter t password ( Default is ${psd} ):" psd2; [ -n "${psd2}" ] && psd=$psd2;echo;
 if command -v yum &> /dev/null; then
-    yum -y --skip-broken install epel-release wget unzip nginx tar nano net-tools nginx-all-modules.noarch
+  yum -y --skip-broken install epel-release wget unzip nginx tar nano net-tools nginx-all-modules.noarch
 elif command -v apt &> /dev/null; then
-    apt update; apt -y install wget unzip nginx tar nano net-tools cron
+  apt update; apt -y install wget unzip nginx tar nano net-tools cron
 fi
 
 service nginx start
@@ -18,7 +18,7 @@ path_cert=/opt/tool/cert/
 mkdir -p ${path_cert}/${domain_cert}_ecc
 cd ${path_cert}/${domain_cert}_ecc
 openssl genrsa -out "${domain_cert}.key" 2048
-openssl req -new -x509 -days 30 -key "${domain_cert}.key" -out "${domain_cert}.cer" -subj "/C=GB/CN=foo"
+openssl req -new -x509 -days 30 -key "${domain_cert}.key" -out "${domain_cert}.cer" -subj "/C=US"
 
 path_xray=/opt/tool/xray/
 path_down=/opt/tool/download/
@@ -60,7 +60,7 @@ cat > xs.json << EOF
           ],
           "certificates": [
             {
-              "certificateFile": "${path_cert}/${domain_cert}_ecc/${domain_cert}.cer",
+              "certificateFile": "${path_cert}/${domain_cert}_ecc/fullchain.cer",
               "keyFile": "${path_cert}/${domain_cert}_ecc/${domain_cert}.key"
             }
           ]
