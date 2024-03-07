@@ -18,7 +18,7 @@ path_cert=/opt/tool/cert/
 mkdir -p ${path_cert}/${domain_cert}_ecc
 cd ${path_cert}/${domain_cert}_ecc
 openssl genrsa -out "${domain_cert}.key" 2048
-openssl req -new -x509 -days 3650 -key "${domain_cert}.key" -out "fullchain.cer" -subj "/C=cn/OU=myorg/O=mycomp/CN=${domain_cert}"
+openssl req -new -x509 -days 30 -key "${domain_cert}.key" -out "${domain_cert}.cer" -subj "/C=GB/CN=foo"
 
 path_xray=/opt/tool/xray/
 path_down=/opt/tool/download/
@@ -60,7 +60,7 @@ cat > xs.json << EOF
           ],
           "certificates": [
             {
-              "certificateFile": "${path_cert}/${domain_cert}_ecc/fullchain.cer",
+              "certificateFile": "${path_cert}/${domain_cert}_ecc/${domain_cert}.cer",
               "keyFile": "${path_cert}/${domain_cert}_ecc/${domain_cert}.key"
             }
           ]
