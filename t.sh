@@ -4,9 +4,9 @@ domain_xray="localhost"
 read -s -p "Enter t password:" psd; [ -z "$psd" ] && psd=TMPtmp-7;echo;
 
 if command -v yum &> /dev/null; then
-    yum -y --skip-broken install epel-release wget unzip nginx tar nano
+    yum -y --skip-broken install epel-release wget unzip nginx tar nano net-tools nginx-all-modules.noarch
 elif command -v apt &> /dev/null; then
-    apt update; apt -y install wget unzip nginx tar nano cron
+    apt update; apt -y install wget unzip nginx tar nano net-tools cron
 fi
 
 service nginx start
@@ -15,17 +15,18 @@ systemctl enable nginx.service
 domain_cert=$domain_xray
 path_cert=/opt/tool/cert/
 mkdir -p ${path_cert}/${domain_cert}_ecc
-
 cd ${path_cert}/${domain_cert}_ecc
 openssl genrsa -out "${domain_cert}.key" 2048
 openssl req -new -x509 -days 3650 -key "${domain_cert}.key" -out "fullchain.cer" -subj "/C=cn/OU=myorg/O=mycomp/CN=${domain_cert}"
 
-
-cd /opt/tool/
+path_xray=/opt/tool/xray/
+path_down=/opt/tool/download/
+mkdir -p ${path_down}
+cd ${path_down}
 xrayver=1.8.8
 wget "https://github.com/XTLS/Xray-core/releases/download/v${xrayver}/Xray-linux-64.zip" -O "Xray-linux-64-${xrayver}.zip"
-unzip -o -d xray "Xray-linux-64-${xrayver}.zip"
-cd xray
+unzip -o -d "${path_xray}" "Xray-linux-64-${xrayver}.zip"
+cd ${path_xray}
 cat > xs.json << EOF
 {
   "log": {
