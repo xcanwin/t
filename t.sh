@@ -19,6 +19,7 @@ mkdir -p ${path_cert}/${domain_cert}_ecc
 cd ${path_cert}/${domain_cert}_ecc
 openssl genrsa -out "${domain_cert}.key" 2048
 openssl req -new -x509 -days 30 -key "${domain_cert}.key" -out "${domain_cert}.cer" -subj "/C=US"
+cp "${domain_cert}.cer" "fullchain.cer"
 
 path_xray=/opt/tool/xray/
 path_down=/opt/tool/download/
