@@ -15,11 +15,10 @@ systemctl enable nginx.service
 
 domain_cert=$domain_xray
 path_cert=/opt/tool/cert/
-mkdir -p ${path_cert}/${domain_cert}_ecc
-cd ${path_cert}/${domain_cert}_ecc
-openssl genrsa -out "${domain_cert}.key" 2048
-openssl req -new -x509 -days 30 -key "${domain_cert}.key" -out "${domain_cert}.cer" -subj "/C=US"
-cp "${domain_cert}.cer" "fullchain.cer"
+mkdir -p ${path_cert}/${domain_cert}
+cd ${path_cert}/${domain_cert}
+openssl genrsa -out "${domain_cert}.key" 1024
+openssl req -new -x509 -days 3650 -key "${domain_cert}.key" -out "${domain_cert}.cer" -subj "/CN=${domain_cert}"
 
 path_xray=/opt/tool/xray/
 path_down=/opt/tool/download/
@@ -38,6 +37,7 @@ cat > xs.json << EOF
   "inbounds": [
     {
       "tag": "tj",
+      "listen": "0.0.0.0",
       "port": 443,
       "protocol": "trojan",
       "settings": {
@@ -61,8 +61,8 @@ cat > xs.json << EOF
           ],
           "certificates": [
             {
-              "certificateFile": "${path_cert}/${domain_cert}_ecc/fullchain.cer",
-              "keyFile": "${path_cert}/${domain_cert}_ecc/${domain_cert}.key"
+              "certificateFile": "${path_cert}/${domain_cert}/${domain_cert}.cer",
+              "keyFile": "${path_cert}/${domain_cert}/${domain_cert}.key"
             }
           ]
         }
