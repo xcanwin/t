@@ -19,25 +19,6 @@ fi
 # nginx
 service nginx start
 systemctl enable nginx.service
-service_name="trojan"
-if ! grep -q "include /etc/nginx/stream.d/" "/etc/nginx/nginx.conf"; then
-  mkdir -p /etc/nginx/stream.d/
-  cat >> /etc/nginx/nginx.conf << EOF
-stream {
-  include /etc/nginx/stream.d/*.conf;
-}
-EOF
-fi
-cat > /etc/nginx/stream.d/${service_name}.conf << EOF
-upstream ${service_name} {
-  server 127.0.0.2:81;
-}
-server {
-  listen 443;
-  proxy_pass ${service_name};
-}
-EOF
-service nginx force-reload
 
 # cert
 domain_cert=$domain_xray
@@ -77,8 +58,8 @@ cat > xs.json << EOF
   "inbounds": [
     {
       "tag": "tj",
-      "listen": "127.0.0.2",
-      "port": 81,
+      "listen": "0.0.0.0",
+      "port": 443,
       "protocol": "trojan",
       "settings": {
         "clients": [
