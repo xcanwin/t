@@ -52,7 +52,7 @@ else
   mkdir -p $path_cert
   mkdir -p $path_acme
   curl -L https://get.acme.sh | sh -s home "${path_acme}" --cert-home "${path_cert}"
-  source ~/.bashrc
+  . "${path_acme}/acme.sh.env"
   $path_acme/acme.sh --set-default-ca --server letsencrypt
   $path_acme/acme.sh --issue -d "${domain_cert}" --webroot "${webroot}"
   $path_acme/acme.sh --upgrade --auto-upgrade
