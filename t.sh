@@ -45,8 +45,8 @@ path_down=/opt/tool/download/
 mkdir -p ${path_xray}
 mkdir -p ${path_down}
 cd ${path_down}
-ver_xray=1.8.8
-wget "https://github.com/XTLS/Xray-core/releases/download/v${ver_xray}/Xray-linux-64.zip" -O "Xray-linux-64-${ver_xray}.zip"
+ver_xray=$(curl -s https://api.github.com/repos/XTLS/Xray-core/releases | grep -m 1 -o '"tag_name": "[^"]*' | sed 's/"tag_name": "//')
+status=$(curl --write-out '%{http_code}' -sLo "Xray-linux-64-${ver_xray}.zip" "https://github.com/XTLS/Xray-core/releases/download/${ver_xray}/Xray-linux-64.zip")
 unzip -o -d "${path_xray}" "Xray-linux-64-${ver_xray}.zip"
 cd ${path_xray}
 cat > xs.json << EOF
