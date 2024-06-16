@@ -67,17 +67,13 @@ cat > xs.json << EOF
             "password": "${pass_xray}"
           }
         ],
-        "fallbacks": [
-          {
-            "dest": 80
-          }
-        ]
+        "fallbacks": [ { "dest": 80 } ]
       },
       "streamSettings": {
         "network": "tcp",
         "security": "tls",
         "tlsSettings": {
-          "alpn": ["http/1.1"],
+          "alpn": [ "http/1.1" ],
           "certificates": [
             {
               "certificateFile": "${path_cert}/${domain_cert}_ecc/fullchain.cer",
