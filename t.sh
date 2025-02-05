@@ -34,7 +34,6 @@ if [ "$domain_xray" = "localhost" ]; then
   openssl req -new -x509 -days 3650 -key "${domain_cert}.key" -out "fullchain.cer" -subj "/CN=${domain_cert}"
 else
   path_cert="/opt/tool/cert/"
-
   mkdir -p "${path_cert}" "${HOME}/.acme.sh/"
   cd /tmp/
   git clone https://github.com/acmesh-official/acme.sh.git
