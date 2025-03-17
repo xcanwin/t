@@ -3,13 +3,15 @@
 # bash -c "`curl -fsSL https://github.com/xcanwin/t/raw/main/t.sh`"
 
 domain_xray="localhost"
+port_xray=8443
 pass_xray="TMPtmp-7"
 
 # init
 read -p "Enter xray domain ( Default is ${domain_xray} ):" domain_xray2; [ -n "${domain_xray2}" ] && domain_xray=$domain_xray2;echo;
+read -p "Enter xray port ( Set above 1024. Default is ${port_xray} ):" port_xray2; [ -n "${port_xray2}" ] && port_xray=$port_xray2;echo;
 read -s -p "Enter xray password ( Default is ${pass_xray} ):" pass_xray2; [ -n "${pass_xray2}" ] && pass_xray=$pass_xray2;echo;
 if command -v yum &> /dev/null; then
-  sudo yum update; sudo yum -y --skip-broken install epel-release wget unzip nginx tar nano net-tools nginx-all-modules.noarch socat git cronie
+  sudo yum update -y; sudo yum -y --skip-broken install epel-release wget unzip nginx tar nano net-tools nginx-all-modules.noarch socat git cronie
   webroot="/usr/share/nginx/html"
 elif command -v apt &> /dev/null; then
   sudo apt update; sudo apt -y install wget unzip nginx tar nano net-tools cron socat git cronie
@@ -34,6 +36,7 @@ if [ "$domain_xray" = "localhost" ]; then
   openssl req -new -x509 -days 3650 -key "${domain_cert}.key" -out "fullchain.cer" -subj "/CN=${domain_cert}"
 else
   path_cert="/opt/tool/cert/"
+
   mkdir -p "${path_cert}" "${HOME}/.acme.sh/"
   cd /tmp/
   git clone https://github.com/acmesh-official/acme.sh.git
@@ -66,7 +69,7 @@ cat > xs.json << EOF
     {
       "tag": "tj",
       "listen": "0.0.0.0",
-      "port": 443,
+      "port": ${port_xray},
       "protocol": "trojan",
       "settings": {
         "clients": [
@@ -154,4 +157,4 @@ ip1=`curl ipinfo.io/ip  -s | tr -d '\n'`
 ip2=`curl api.ipify.org -s | tr -d '\n'`
 [ "$ip1" == "$ip2" ] && ip_wan=$ip1 || ip_wan=0.0.0.0
 [ "$domain_xray" = "localhost" ] && { target_xray=$ip_wan; allow_insecure=1; } || { target_xray=$domain_xray; allow_insecure=0; }
-echo -e "\n\n\n[+] Success:\ntrojan://${pass_xray}@${target_xray}:443?security=tls&sni=${domain_xray}&fp=randomized&allowInsecure=${allow_insecure}#trojan_temp"
+echo -e "\n\n\n[+] Success:\ntrojan://${pass_xray}@${target_xray}:${port_xray}?security=tls&sni=${domain_xray}&fp=randomized&allowInsecure=${allow_insecure}#trojan_temp"
