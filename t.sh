@@ -1,5 +1,8 @@
 #!/bin/bash
-# First: DNS: domain -> ip
+# Requirements:
+# 1. Set the DNS A record for domain to IPv4
+# 2. Set the DNS AAAA record for domain to IPv6
+# Command:
 # bash -c "`curl -fsSL https://github.com/xcanwin/t/raw/main/t.sh`"
 
 domain_xray="localhost"
