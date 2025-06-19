@@ -55,7 +55,7 @@ path_down=/opt/tool/download/
 mkdir -p ${path_xray}
 mkdir -p ${path_down}
 cd ${path_down}
-ver_xray=25.1.30
+ver_xray=25.6.8
 wget "https://github.com/XTLS/Xray-core/releases/download/v${ver_xray}/Xray-linux-64.zip" -O "Xray-linux-64-${ver_xray}.zip"
 unzip -o -d "${path_xray}" "Xray-linux-64-${ver_xray}.zip"
 cd ${path_xray}
@@ -68,7 +68,7 @@ cat > xs.json << EOF
   "inbounds": [
     {
       "tag": "tj",
-      "listen": "0.0.0.0",
+      "listen": "::",
       "port": ${port_xray},
       "protocol": "trojan",
       "settings": {
