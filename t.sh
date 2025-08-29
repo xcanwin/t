@@ -17,7 +17,7 @@ if command -v yum &> /dev/null; then
   sudo yum update -y; sudo yum -y --skip-broken install epel-release wget unzip nginx tar nano net-tools nginx-all-modules.noarch socat git cronie
   webroot="/usr/share/nginx/html"
 elif command -v apt &> /dev/null; then
-  sudo apt update; sudo apt -y install wget unzip nginx tar nano net-tools cron socat git cronie
+  sudo apt update; sudo apt -y install wget unzip nginx tar nano net-tools socat git cronie
   webroot="/var/www/html"
 fi
 
