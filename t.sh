@@ -153,7 +153,13 @@ cat > xs.json << EOF
 }
 EOF
 nohup ./xray run -c xs.json &
-crontab -l | { cat; echo "@reboot nohup /opt/tool/xray/xray run -c /opt/tool/xray/xs.json &"; } | crontab -
+add_cron_once() {
+  entry="$1"
+  (crontab -l 2>/dev/null | grep -Fxq "$entry") || \
+    (crontab -l 2>/dev/null; echo "$entry") | crontab -
+}
+add_cron_once '@reboot nohup /opt/tool/xray/xray run -c /opt/tool/xray/xs.json &'
+
 
 # wan ip
 ip1=`curl ipinfo.io/ip  -s | tr -d '\n'`
