@@ -127,28 +127,26 @@ cat > xs.json << EOF
     }
   ],
   "routing": {
-    "settings": {
-      "domainStrategy": "AsIs",
-      "rules": [
-        {
-          "type": "field",
-          "outboundTag": "block",
-          "domain": [
-            "pwnedpasswords.com",
-            "api.pwnedpasswords.com"
-          ],
-          "enabled": true
-        },
-        {
-          "type": "field",
-          "outboundTag": "ss.jump",
-          "domain": [
-            "server_lan._.com"
-          ],
-          "enabled": true
-        }
-      ]
-    }
+    "domainStrategy": "AsIs",
+    "rules": [
+      {
+        "type": "field",
+        "outboundTag": "block",
+        "domain": [
+          "pwnedpasswords.com",
+          "api.pwnedpasswords.com"
+        ],
+        "enabled": true
+      },
+      {
+        "type": "field",
+        "outboundTag": "ss.jump",
+        "domain": [
+          "server_lan._.com"
+        ],
+        "enabled": true
+      }
+    ]
   }
 }
 EOF
