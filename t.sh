@@ -46,6 +46,13 @@ sudo systemctl enable nginx.service
 sudo mkdir -p "/opt/tool/" "${webroot}"
 sudo chown $(whoami) "/opt/tool/" "${webroot}"
 
+# firewall
+if [[ "$(firewall-cmd --state 2>/dev/null)" == "running" ]]; then
+  sudo firewall-cmd --permanent --add-port=80/tcp
+  sudo firewall-cmd --permanent --add-port=$(port_xray)/tcp
+  sudo firewall-cmd --reload
+fi
+
 # cert
 path_cert="/opt/tool/cert/"
 if [ "$domain_cert" = "localhost" ]; then
