@@ -11,8 +11,20 @@ pass_xray="TMPtmp-7"
 
 # init
 read -p "Enter xray domain ( Default is ${domain_xray} ):" domain_xray2; [ -n "${domain_xray2}" ] && domain_xray=$domain_xray2;echo;
+
+if [[ "$domain_xray" == *.* ]]; then
+    # domain_cert="*${domain_xray#*.}"
+    domain_cert="$domain_xray"
+else
+    domain_cert="$domain_xray"
+fi
+read -p "Enter cert domain ( Default is ${domain_cert} ):" domain_cert2; [ -n "${domain_cert2}" ] && domain_cert=$domain_cert2;echo;
+
 read -p "Enter xray port ( Set above 1024. Default is ${port_xray} ):" port_xray2; [ -n "${port_xray2}" ] && port_xray=$port_xray2;echo;
+
 read -s -p "Enter xray password ( Default is ${pass_xray} ):" pass_xray2; [ -n "${pass_xray2}" ] && pass_xray=$pass_xray2;echo;
+
+# install lib
 if command -v yum &> /dev/null; then
   APT_YUM_OPTIONS="-y --skip-broken"
   if yum install --help 2>&1 | grep -q -- "--skip-unavailable"; then
@@ -35,9 +47,8 @@ sudo mkdir -p "/opt/tool/" "${webroot}"
 sudo chown $(whoami) "/opt/tool/" "${webroot}"
 
 # cert
-domain_cert=$domain_xray
 path_cert="/opt/tool/cert/"
-if [ "$domain_xray" = "localhost" ]; then
+if [ "$domain_cert" = "localhost" ]; then
   mkdir -p ${path_cert}/${domain_cert}_ecc
   cd ${path_cert}/${domain_cert}_ecc
   openssl genrsa -out "${domain_cert}.key" 1024
