@@ -14,10 +14,15 @@ read -p "Enter xray domain ( Default is ${domain_xray} ):" domain_xray2; [ -n "$
 read -p "Enter xray port ( Set above 1024. Default is ${port_xray} ):" port_xray2; [ -n "${port_xray2}" ] && port_xray=$port_xray2;echo;
 read -s -p "Enter xray password ( Default is ${pass_xray} ):" pass_xray2; [ -n "${pass_xray2}" ] && pass_xray=$pass_xray2;echo;
 if command -v yum &> /dev/null; then
-  sudo yum update -y; sudo yum install epel-release wget unzip nginx tar nano net-tools nginx-all-modules.noarch socat git cronie -y --skip-broken --skip-unavailable
+  APT_YUM_OPTIONS="-y --skip-broken"
+  if yum install --help 2>&1 | grep -q -- "--skip-unavailable"; then
+      APT_YUM_OPTIONS="-y --skip-broken --skip-unavailable"
+  fi
+  sudo yum update -y; sudo yum install epel-release wget unzip nginx tar nano net-tools nginx-all-modules.noarch socat git cronie $APT_YUM_OPTIONS
   webroot="/usr/share/nginx/html"
 elif command -v apt &> /dev/null; then
-  sudo apt update; sudo apt install wget unzip nginx tar nano net-tools socat git cronie -y
+  APT_YUM_OPTIONS="-y"
+  sudo apt update; sudo apt install wget unzip nginx tar nano net-tools socat git cronie $APT_YUM_OPTIONS
   webroot="/var/www/html"
 fi
 
