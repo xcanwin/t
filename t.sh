@@ -187,4 +187,4 @@ ip1=`curl ipinfo.io/ip  -s | tr -d '\n'`
 ip2=`curl api.ipify.org -s | tr -d '\n'`
 [ "$ip1" == "$ip2" ] && ip_wan=$ip1 || ip_wan=0.0.0.0
 [ "$domain_xray" = "localhost" ] && { target_xray=$ip_wan; allow_insecure=1; } || { target_xray=$domain_xray; allow_insecure=0; }
-echo -e "\n\n\n[+] Success:\ntrojan://${pass_xray}@${target_xray}:${port_xray}?security=tls&sni=${domain_xray}&fp=randomized&allowInsecure=${allow_insecure}#trojan_temp"
+echo -e "\n\n\n[+] Success:\ntrojan://${pass_xray}@${target_xray}:${port_xray}?security=tls&sni=${domain_xray}&alpn=h2%2Chttp%2F1.1&fp=randomized&type=tcp&headerType=none&allowInsecure=${allow_insecure}#trojan_temp"
