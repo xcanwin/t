@@ -6,6 +6,8 @@
 # bash -c "`curl -fsSL https://github.com/xcanwin/t/raw/main/t.sh`"
 
 
+ver_xray=25.10.15
+
 # Detect Docker
 if [ -f /.dockerenv ] || [ "$IS_DOCKER" == "1" ]; then
     IS_DOCKER=1
@@ -124,7 +126,6 @@ mkdir -p ${path_down}
 # Download Xray if not present
 if [ ! -f "${path_xray}/xray" ]; then
     cd ${path_down}
-    ver_xray=25.6.8
     wget "https://github.com/XTLS/Xray-core/releases/download/v${ver_xray}/Xray-linux-64.zip" -O "Xray-linux-64-${ver_xray}.zip"
     unzip -o -d "${path_xray}" "Xray-linux-64-${ver_xray}.zip"
 fi
