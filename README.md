@@ -12,6 +12,8 @@ sudo bash -c "`curl -fsSL https://github.com/xcanwin/t/raw/main/t.sh`"
 
 ## Docker容器运行
 
+### 构建与运行
+
 构建镜像
 
 ```
@@ -25,8 +27,8 @@ docker image prune -f
 
 ```
 docker run -d --name xt -p 8443:8443 xcanwin/t:latest
-# 或者 自定义域名端口密码
-docker run -d --name xt -p 8443:8443 -p 80:80 -e DOMAIN_XRAY=localhost -e PORT_XRAY=8443 -e PASS_XRAY=TMPtmp-8 xcanwin/t:latest
+# 若需自定义域名端口密码，则
+# docker run -d --name xt -p 8443:8443 -p 80:80 -e DOMAIN_XRAY=localhost -e PORT_XRAY=8443 -e PASS_XRAY=TMPtmp-8 xcanwin/t:latest
 ```
 
 配置容器自启动
@@ -38,9 +40,9 @@ mv -f container-xt.service $HOME/.config/systemd/user/
 systemctl enable --user container-xt.service
 ```
 
-### Docker容器删除
+### 删除
 
-若需删除容器，先删除自启动
+若需删除容器，需先删除自启动，再删除容器
 
 ```
 systemctl disable --user container-xt.service
