@@ -22,7 +22,7 @@ docker image prune -f
 运行容器
 ```
 docker run -d --name xt --restart=always -p 8443:8443 xcanwin/t:latest
-# 或者
+# 或者 自定义域名端口密码
 docker run -d --name xt --restart=always -p 8443:8443 -p 80:80 -e DOMAIN_XRAY=localhost -e PORT_XRAY=8443 -e PASS_XRAY=TMPtmp-8 xcanwin/t:latest
 ```
 
