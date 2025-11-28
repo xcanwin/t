@@ -5,6 +5,7 @@
 # Command:
 # bash -c "`curl -fsSL https://github.com/xcanwin/t/raw/main/t.sh`"
 
+
 # Detect Docker
 if [ -f /.dockerenv ] || [ "$IS_DOCKER" == "1" ]; then
     IS_DOCKER=1
@@ -30,7 +31,7 @@ if [ "$IS_DOCKER" -eq 0 ]; then
 fi
 
 if [[ "$domain_xray" == *.* ]]; then
-    domain_cert="$domain_xray"
+    domain_cert="*.${domain_xray#*.}"
 else
     domain_cert="$domain_xray"
 fi
