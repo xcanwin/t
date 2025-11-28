@@ -32,9 +32,7 @@ docker image prune -f
 新建并运行容器
 
 ```
-
-# 若需自定义域名端口密码，则
-# docker run -d --name xt -p 8443:8443 -p 80:80 -e DOMAIN_XRAY=localhost -e PORT_XRAY=8443 -e PASS_XRAY=TMPtmp-8 xcanwin/t:latest
+docker run -d --name xt -p 8443:8443 -p 80:80 -e DOMAIN_XRAY=localhost -e PORT_XRAY=8443 -e PASS_XRAY=TMPtmp-8 xcanwin/t:latest
 ```
 
 配置容器自启动
