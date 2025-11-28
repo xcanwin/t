@@ -34,7 +34,7 @@ docker run -d --name xt -p 8443:8443 -p 80:80 -e DOMAIN_XRAY=localhost -e PORT_X
 ```
 podman generate systemd --name xt --files --new
 mkdir -p $HOME/.config/systemd/user/
-mv container-xt.service $HOME/.config/systemd/user/
+mv -f container-xt.service $HOME/.config/systemd/user/
 systemctl enable --user container-xt.service
 ```
 
@@ -44,5 +44,6 @@ systemctl enable --user container-xt.service
 
 ```
 systemctl disable --user container-xt.service
+rm -rf $HOME/.config/systemd/user/container-xt.service
 docker rm -f xt
 ```
