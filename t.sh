@@ -92,7 +92,7 @@ path_cert="/opt/tool/cert/"
 if [ "$domain_cert" = "localhost" ]; then
   mkdir -p ${path_cert}/${domain_cert}_ecc
   cd ${path_cert}/${domain_cert}_ecc
-  openssl genrsa -out "${domain_cert}.key" 1024
+  openssl ecparam -genkey -name prime256v1 -out "${domain_cert}.key"
   openssl req -new -x509 -days 3650 -key "${domain_cert}.key" -out "fullchain.cer" -subj "/CN=${domain_cert}"
 else
   path_cert="/opt/tool/cert/"
