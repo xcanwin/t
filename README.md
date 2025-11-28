@@ -2,7 +2,7 @@
 
 好好学习的快速t
 
-# 方法
+# 快速开始
 
 ## 当前环境运行
 
@@ -12,7 +12,13 @@ sudo bash -c "`curl -fsSL https://github.com/xcanwin/t/raw/main/t.sh`"
 
 ## Docker容器运行
 
-### 构建与运行
+```
+docker run -d --name xt -p 8443:8443 xcanwin/t:latest
+```
+
+# 其他
+
+## 构建与运行
 
 构建镜像
 
@@ -26,7 +32,7 @@ docker image prune -f
 新建并运行容器
 
 ```
-docker run -d --name xt -p 8443:8443 xcanwin/t:latest
+
 # 若需自定义域名端口密码，则
 # docker run -d --name xt -p 8443:8443 -p 80:80 -e DOMAIN_XRAY=localhost -e PORT_XRAY=8443 -e PASS_XRAY=TMPtmp-8 xcanwin/t:latest
 ```
@@ -39,8 +45,6 @@ mkdir -p $HOME/.config/systemd/user/
 mv -f container-xt.service $HOME/.config/systemd/user/
 systemctl enable --user container-xt.service
 ```
-
-### 删除
 
 若需删除容器，需先删除自启动，再删除容器
 
