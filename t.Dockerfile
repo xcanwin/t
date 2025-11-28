@@ -3,9 +3,9 @@
 # docker image prune -f
 
 # Run:
-# docker run -d --name xt --restart=always -p 8443:8443 xcanwin/t:latest
+# docker run -d --name xt -p 8443:8443 xcanwin/t:latest
 # or
-# docker run -d --name xt --restart=always -p 8443:8443 -p 80:80 -e DOMAIN_XRAY=localhost -e PORT_XRAY=8443 -e PASS_XRAY=TMPtmp-8 xcanwin/t:latest
+# docker run -d --name xt -p 8443:8443 -p 80:80 -e DOMAIN_XRAY=localhost -e PORT_XRAY=8443 -e PASS_XRAY=TMPtmp-8 xcanwin/t:latest
 
 
 # Stage 1: Builder
