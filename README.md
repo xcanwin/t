@@ -21,7 +21,7 @@ docker image prune -f
 
 运行容器
 ```
-docker run -d --name xt -p 80:80 -p 8443:8443 xcanwin/t:latest
+docker run -d --name xt --restart=always -p 80:80 -p 8443:8443 xcanwin/t:latest
 # 或者
-docker run -d --name xt -p 8443:8443 xcanwin/t:latest
+docker run -d --name xt --restart=always -p 8443:8443 xcanwin/t:latest
 ```
