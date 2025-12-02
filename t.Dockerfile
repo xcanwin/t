@@ -43,4 +43,4 @@ EXPOSE 80 8443
 # Healthcheck: check xray port is listening
 # HEALTHCHECK --interval=30s --timeout=5s --start-period=20s --retries=3 CMD nc -z 127.0.0.1 ${PORT_XRAY} || exit 1
 
-ENTRYPOINT ["/opt/tool/t/t.sh"]
+CMD ["/opt/tool/t/t.sh"]
