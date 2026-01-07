@@ -34,17 +34,6 @@ if [ "$IS_DOCKER" -eq 0 ]; then
     read -s -p "Enter xray password ( Default ${pass_xray} ):" v; [ -n "$v" ] && pass_xray="$v"; echo
 fi
 
-# OS-specific webroot
-if command -v yum &>/dev/null; then
-    webroot="/usr/share/nginx/html"
-elif command -v apt &>/dev/null; then
-    webroot="/var/www/html"
-elif command -v apk &>/dev/null; then
-    webroot="/var/lib/nginx/html"
-else
-    webroot="/usr/share/nginx/html"
-fi
-
 # Install libs (non-Docker)
 if [ "$IS_DOCKER" -eq 0 ]; then
     if command -v yum &>/dev/null; then
@@ -65,11 +54,11 @@ if [ "$IS_DOCKER" -eq 0 ]; then
 fi
 
 # Paths
-$SUDO mkdir -p "/opt/tool/" "${webroot}"
+webroot=$(nginx -V 2>&1 | sed -n 's/.*--prefix=\([^ ]*\).*/\1/p')/html
+$SUDO mkdir -p "/opt/tool/" /run/nginx "${webroot}"
 $SUDO chown "$(whoami)" "/opt/tool/" "${webroot}" || true
 
 # Nginx start
-mkdir -p /run/nginx "${webroot}"
 if [ "$IS_DOCKER" -eq 0 ]; then
     $SUDO service nginx start || $SUDO systemctl start nginx
     $SUDO systemctl enable nginx.service || true
