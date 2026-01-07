@@ -7,7 +7,7 @@
 
 set -euo pipefail
 
-ver_xray=25.10.15
+ver_xray=25.12.8
 
 # Defaults (env override)
 domain_xray=${DOMAIN_XRAY:-"localhost"}
@@ -103,7 +103,7 @@ if [ "$domain_cert" = "localhost" ]; then
     if [ ! -f "${domain_cert}.key" ]; then
         # openssl ecparam -genkey -name prime256v1 -out "${domain_cert}.key"
         openssl ecparam -genkey -name secp384r1 -out "${domain_cert}.key"
-        openssl req -new -x509 -days 3650 -key "${domain_cert}.key" -out "fullchain.cer" -subj "/CN=${domain_cert}"
+        openssl req -new -x509 -days 365 -key "${domain_cert}.key" -out "fullchain.cer" -subj "/CN=${domain_cert}"
     fi
 else
     if [ ! -f "${path_cert}/${domain_cert}_ecc/fullchain.cer" ]; then
@@ -118,7 +118,7 @@ else
         . "${HOME}/.acme.sh/acme.sh.env"
         export LE_WORKING_DIR="${HOME}/.acme.sh"
         "${HOME}/.acme.sh/acme.sh" --set-default-ca --server letsencrypt
-        "${HOME}/.acme.sh/acme.sh" --issue -d "${domain_cert}" --webroot "${webroot}"
+        "${HOME}/.acme.sh/acme.sh" --issue -d "${domain_cert}" --webroot "${webroot}" --days 20
         "${HOME}/.acme.sh/acme.sh" --upgrade --auto-upgrade
 
         # Docker: ensure crond running for renew (optional)
