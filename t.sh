@@ -53,8 +53,18 @@ if [ "$IS_DOCKER" -eq 0 ]; then
     fi
 fi
 
+# OS-specific webroot
+if command -v yum &>/dev/null; then # redhat
+    webroot="/usr/share/nginx/html"
+elif command -v apt &>/dev/null; then # ubuntu
+    webroot="/var/www/html"
+elif command -v apk &>/dev/null; then # alpine
+    webroot="/var/lib/nginx/html"
+else
+    webroot="/usr/share/nginx/html"
+fi
+
 # Paths
-webroot=$(nginx -V 2>&1 | sed -n 's/.*--prefix=\([^ ]*\).*/\1/p')/html
 $SUDO mkdir -p "/opt/tool/" /run/nginx "${webroot}"
 $SUDO chown "$(whoami)" "/opt/tool/" "${webroot}" || true
 
