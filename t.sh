@@ -7,7 +7,7 @@
 
 set -euo pipefail
 
-ver_xray=25.12.8
+ver_xray=26.1.23
 
 # Defaults (env override)
 domain_xray=${DOMAIN_XRAY:-"localhost"}
