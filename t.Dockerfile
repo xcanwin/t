@@ -9,7 +9,7 @@
 # docker run -d --name xt -p 8443:8443 -p 80:80 -e DOMAIN_XRAY=your.domain.com -e DOMAIN_CERT=your.domain.com -e PORT_XRAY=8443 -e PASS_XRAY=TMPtmp-7 -v certs:/opt/tool/cert -v acme:/root/.acme.sh xcanwin/t:latest
 
 FROM alpine:latest AS builder
-ARG VER_XRAY=25.12.8
+ARG VER_XRAY=26.1.23
 RUN apk add --no-cache wget unzip
 RUN wget "https://github.com/XTLS/Xray-core/releases/download/v${VER_XRAY}/Xray-linux-64.zip" -O /tmp/xray.zip --progress=dot:mega && \
     unzip -o -d /tmp/xray /tmp/xray.zip
