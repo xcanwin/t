@@ -86,10 +86,17 @@ fi
 
 # Firewall (Skip in Docker)
 if [ "$IS_DOCKER" -eq 0 ]; then
-    if [[ "$(firewall-cmd --state 2>/dev/null)" == "running" ]]; then
+    if command -v firewall-cmd >/dev/null 2>&1 \
+       && [[ "$(firewall-cmd --state 2>/dev/null)" == "running" ]]; then
+        # firewalld: RHEL / CentOS / Fedora
         $SUDO firewall-cmd --permanent --add-port=80/tcp
         $SUDO firewall-cmd --permanent --add-port=${port_xray}/tcp
         $SUDO firewall-cmd --reload
+    elif command -v ufw >/dev/null 2>&1 \
+       && [[ "$(ufw status 2>/dev/null | awk 'NR==1{print $2}')" == "active" ]]; then
+        # ufw: Debian / Ubuntu
+        $SUDO ufw allow 80/tcp
+        $SUDO ufw allow ${port_xray}/tcp
     fi
 fi
 
