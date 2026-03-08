@@ -7,7 +7,7 @@
 
 set -euo pipefail
 
-ver_xray=26.1.23
+ver_xray=26.2.6
 
 # Defaults (env override)
 domain_xray=${DOMAIN_XRAY:-"localhost"}
@@ -145,7 +145,9 @@ mkdir -p "${path_down}"
 # Download Xray
 if [ ! -f "${path_xray}/xray" ]; then
     cd "${path_down}"
-    wget -q "https://github.com/XTLS/Xray-core/releases/download/v${ver_xray}/Xray-linux-64.zip" -O "Xray-linux-64-${ver_xray}.zip"
+    curl -fL --retry 3 --retry-delay 2 --connect-timeout 10 \
+        "https://github.com/XTLS/Xray-core/releases/download/v${ver_xray}/Xray-linux-64.zip" \
+        -o "Xray-linux-64-${ver_xray}.zip"
     unzip -o -d "${path_xray}" "Xray-linux-64-${ver_xray}.zip"
 fi
 
