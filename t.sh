@@ -123,7 +123,7 @@ else
         fi
         . "${HOME}/.acme.sh/acme.sh.env"
         export LE_WORKING_DIR="${HOME}/.acme.sh"
-        "${HOME}/.acme.sh/acme.sh" --set-default-ca --server letsencrypt
+        "${HOME}/.acme.sh/acme.sh" --set-default-ca --server zerossl
         "${HOME}/.acme.sh/acme.sh" --issue -d "${domain_cert}" --webroot "${webroot}" --days 20
         "${HOME}/.acme.sh/acme.sh" --upgrade --auto-upgrade
 
