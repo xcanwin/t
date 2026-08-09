@@ -8,12 +8,16 @@
 
 ```
 sudo bash -c "`curl -fsSL https://github.com/xcanwin/t/raw/main/t.sh`"
+# 或者
+sudo MODE_XRAY=borrow bash -c "`curl -fsSL https://github.com/xcanwin/t/raw/main/t.sh`"
 ```
+
+前者需要一个解析到本机的域名，后者需要一个外部站点。
 
 ## Docker容器运行
 
 ```
-docker run -d --name xt -p 8443:8443 xcanwin/t:latest
+docker run -d --name xt -p 443:443 -p 80:80 -v xray:/opt/tool/xray xcanwin/t:latest
 ```
 
 # 其他
@@ -32,7 +36,7 @@ docker image prune -f
 新建并运行容器
 
 ```
-docker run -d --name xt -p 8443:8443 -p 80:80 -e DOMAIN_XRAY=localhost -e PORT_XRAY=8443 -e PASS_XRAY=TMPtmp-8 xcanwin/t:latest
+docker run -d --name xt -p 443:443 -p 80:80 -e DOMAIN_XRAY=localhost -e PORT_XRAY=443 -v xray:/opt/tool/xray xcanwin/t:latest
 ```
 
 配置容器自启动
