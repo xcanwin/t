@@ -482,10 +482,16 @@ if [ "$IS_DOCKER" -eq 0 ]; then
     nohup ./xray run -c xs.json &
     add_cron_once() {
         entry="$1"
-        (crontab -l 2>/dev/null | grep -Fxq "$entry") || (crontab -l 2>/dev/null; echo "$entry") | crontab -
+        cur=$(crontab -l 2>/dev/null || true)
+        if printf '%s\n' "$cur" | grep -Fxq "$entry"; then
+            return 0
+        fi
+        { [ -n "$cur" ] && printf '%s\n' "$cur"; echo "$entry"; } | crontab -
     }
     add_cron_once '@reboot nohup /opt/tool/xray/xray run -c /opt/tool/xray/xs.json &'
-    [ -x xs.watch ] && add_cron_once '17 6 * * * /opt/tool/xray/xs.watch'
+    if [ -x xs.watch ]; then
+        add_cron_once '17 6 * * * /opt/tool/xray/xs.watch'
+    fi
 else
     exec ./xray run -c xs.json
 fi
